@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import axios from "axios"; // Make sure to import axios
 import { zingmp3Api } from "../apis/constants";
-import { addSongsToMyPlaylist } from "../utils/addSongToMyPlaylist";
+import { addSongsToMyPlaylist } from "../utils/addSongToMyPlaylist.js";
 
 export default function AddSongToPlaylistScreen({ route, navigation }) {
     const [songs, setSongs] = useState([]);
