@@ -43,7 +43,25 @@ export default function HomeScreen({ navigation }) {
 
         fetchData();
     }, []);
-
+    // Hàm trả về lời chào phù hợp dựa trên giờ hiện tại
+    const getCurrentTime = () => {
+        const hour = new Date().toLocaleTimeString("vi-VN", {
+            hour: "2-digit",
+        });
+        // chuyển đổi giờ thành số
+        const hourNumber = parseInt(hour.split(":")[0]);
+        const str = "";
+        if (hourNumber >= 0 && hourNumber < 12) {
+            return "Good morning";
+        }
+        if (hourNumber >= 12 && hourNumber < 18) {
+            return "Good afternoon";
+        }
+        if (hourNumber >= 18 && hourNumber < 24) {
+            return "Good evening";
+        }
+        return str;
+    };
     return (
         <ScrollView style={styles.container}>
             <SkeletonContent
