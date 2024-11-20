@@ -242,7 +242,73 @@ export default function HomeScreen({ navigation }) {
                         data={homeData}
                         renderItem={({ item }) => (
                             <View style={styles.section}>
-                                
+                                <Text style={styles.sectionTitle}>
+                                    {item.title}
+                                </Text>
+                                <FlatList
+                                    horizontal={true}
+                                    data={
+                                        item.sectionType === "new-release"
+                                            ? item.items?.all || []
+                                            : item.items || []
+                                    }
+                                    renderItem={({ item }) => (
+                                        <Pressable
+                                            onPress={() => {
+                                                if (item.duration > 0) {
+                                                    dispatch(
+                                                        setCurrentProgress(0)
+                                                    );
+                                                    dispatch(
+                                                        setCurrentSongIndex(0)
+                                                    );
+                                                    dispatch(setPlaylist([]));
+                                                    dispatch(
+                                                        setPlayerData(item)
+                                                    );
+                                                    dispatch(setAudioUrl(""));
+                                                    dispatch(setRadioUrl(""));
+                                                    dispatch(
+                                                        setShowPlayer(true)
+                                                    );
+                                                    dispatch(
+                                                        setIsPlaying(true)
+                                                    );
+                                                } else {
+                                                    dispatch(
+                                                        setIsPlaying(false)
+                                                    );
+                                                    dispatch(
+                                                        setCurrentProgress(0)
+                                                    );
+                                                    navigation.navigate(
+                                                        "PlayList",
+                                                        {
+                                                            id: item.encodeId,
+                                                        }
+                                                    );
+                                                }
+                                            }}
+                                            style={styles.itemContainer}
+                                        >
+                                            <Image
+                                                source={{
+                                                    uri: item.thumbnailM,
+                                                }}
+                                                style={styles.itemImage}
+                                            />
+                                            <Text
+                                                numberOfLines={2}
+                                                style={styles.itemTitle}
+                                            >
+                                                {item.title}
+                                            </Text>
+                                        </Pressable>
+                                    )}
+                                    keyExtractor={(item, index) =>
+                                        index.toString()
+                                    }
+                                />
                             </View>
                         )}
                     />
