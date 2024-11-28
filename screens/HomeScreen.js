@@ -10,7 +10,18 @@ import {
 } from "react-native";
 import { getHomePage } from "../apis/home";
 import { useDispatch } from "react-redux";
+import {
+    setAudioUrl,
+    setCurrentProgress,
+    setCurrentSongIndex,
+    setIsPlaying,
+    setPlayerData,
+    setPlaylist,
+    setRadioUrl,
+    setShowPlayer,
+} from "../redux-toolkit/playerSlice";
 import Header from "../modules/Search/Header";
+import { useAuth } from "../context/auth-context";
 import SkeletonContent from "react-native-skeleton-content";
 
 export default function HomeScreen({ navigation }) {
@@ -324,11 +335,49 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 15,
     },
+    header: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
+        paddingVertical: 25,
+    },
+    headerText: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "700",
+    },
+    headerIcon: {
+        width: 23,
+        height: 23,
+    },
     list: {
         flexDirection: "row",
     },
     section: {
         marginBottom: 12,
     },
+    sectionTitle: {
+        color: "#fff",
+        fontSize: 15,
+        fontWeight: "700",
+    },
+    itemContainer: {
+        paddingVertical: 8,
+        width: 168,
+        height: 200,
+        borderRadius: 4,
+    },
+    itemImage: {
+        width: 152,
+        height: 152,
+        borderRadius: 4,
+    },
+    itemTitle: {
+        color: "#fff",
+        fontSize: 16,
+        fontWeight: "bold",
+        marginTop: 6,
+    },
+
 
 });
