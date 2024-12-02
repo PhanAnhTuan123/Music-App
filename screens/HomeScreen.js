@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { getHomePage } from "../apis/home";
 import { useDispatch } from "react-redux";
+
 import {
     setAudioUrl,
     setCurrentProgress,
@@ -22,6 +23,7 @@ import {
 } from "../redux-toolkit/playerSlice";
 import Header from "../modules/Search/Header";
 import { useAuth } from "../context/auth-context";
+
 import SkeletonContent from "react-native-skeleton-content";
 
 export default function HomeScreen({ navigation }) {
@@ -54,6 +56,7 @@ export default function HomeScreen({ navigation }) {
 
         fetchData();
     }, []);
+
 
     const getCurrentTime = () => {
         const hour = new Date().toLocaleTimeString("vi-VN", {
@@ -254,6 +257,7 @@ export default function HomeScreen({ navigation }) {
                         data={homeData}
                         renderItem={({ item }) => (
                             <View style={styles.section}>
+
                                 <Text style={styles.sectionTitle}>
                                     {item.title}
                                 </Text>
@@ -321,6 +325,7 @@ export default function HomeScreen({ navigation }) {
                                         index.toString()
                                     }
                                 />
+
                             </View>
                         )}
                     />
@@ -336,6 +341,7 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 15,
     },
+
     header: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -351,12 +357,14 @@ const styles = StyleSheet.create({
         width: 23,
         height: 23,
     },
+
     list: {
         flexDirection: "row",
     },
     section: {
         marginBottom: 12,
     },
+
     sectionTitle: {
         color: "#fff",
         fontSize: 15,
