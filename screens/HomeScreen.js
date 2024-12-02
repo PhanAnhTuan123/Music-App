@@ -10,18 +10,7 @@ import {
 } from "react-native";
 import { getHomePage } from "../apis/home";
 import { useDispatch } from "react-redux";
-import {
-    setAudioUrl,
-    setCurrentProgress,
-    setCurrentSongIndex,
-    setIsPlaying,
-    setPlayerData,
-    setPlaylist,
-    setRadioUrl,
-    setShowPlayer,
-} from "../redux-toolkit/playerSlice";
 import Header from "../modules/Search/Header";
-import { useAuth } from "../context/auth-context";
 import SkeletonContent from "react-native-skeleton-content";
 
 export default function HomeScreen({ navigation }) {
@@ -54,6 +43,7 @@ export default function HomeScreen({ navigation }) {
 
         fetchData();
     }, []);
+
     // Hàm trả về lời chào phù hợp dựa trên giờ hiện tại
     const getCurrentTime = () => {
         const hour = new Date().toLocaleTimeString("vi-VN", {
@@ -73,6 +63,7 @@ export default function HomeScreen({ navigation }) {
         }
         return str;
     };
+    
     return (
         <ScrollView style={styles.container}>
             <SkeletonContent
@@ -253,73 +244,7 @@ export default function HomeScreen({ navigation }) {
                         data={homeData}
                         renderItem={({ item }) => (
                             <View style={styles.section}>
-                                <Text style={styles.sectionTitle}>
-                                    {item.title}
-                                </Text>
-                                <FlatList
-                                    horizontal={true}
-                                    data={
-                                        item.sectionType === "new-release"
-                                            ? item.items?.all || []
-                                            : item.items || []
-                                    }
-                                    renderItem={({ item }) => (
-                                        <Pressable
-                                            onPress={() => {
-                                                if (item.duration > 0) {
-                                                    dispatch(
-                                                        setCurrentProgress(0)
-                                                    );
-                                                    dispatch(
-                                                        setCurrentSongIndex(0)
-                                                    );
-                                                    dispatch(setPlaylist([]));
-                                                    dispatch(
-                                                        setPlayerData(item)
-                                                    );
-                                                    dispatch(setAudioUrl(""));
-                                                    dispatch(setRadioUrl(""));
-                                                    dispatch(
-                                                        setShowPlayer(true)
-                                                    );
-                                                    dispatch(
-                                                        setIsPlaying(true)
-                                                    );
-                                                } else {
-                                                    dispatch(
-                                                        setIsPlaying(false)
-                                                    );
-                                                    dispatch(
-                                                        setCurrentProgress(0)
-                                                    );
-                                                    navigation.navigate(
-                                                        "PlayList",
-                                                        {
-                                                            id: item.encodeId,
-                                                        }
-                                                    );
-                                                }
-                                            }}
-                                            style={styles.itemContainer}
-                                        >
-                                            <Image
-                                                source={{
-                                                    uri: item.thumbnailM,
-                                                }}
-                                                style={styles.itemImage}
-                                            />
-                                            <Text
-                                                numberOfLines={2}
-                                                style={styles.itemTitle}
-                                            >
-                                                {item.title}
-                                            </Text>
-                                        </Pressable>
-                                    )}
-                                    keyExtractor={(item, index) =>
-                                        index.toString()
-                                    }
-                                />
+                                
                             </View>
                         )}
                     />
@@ -334,21 +259,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#121212",
         flex: 1,
         padding: 15,
-    },
-    header: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        paddingHorizontal: 20,
-        paddingVertical: 25,
-    },
-    headerText: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "700",
-    },
-    headerIcon: {
-        width: 23,
-        height: 23,
     },
     list: {
         flexDirection: "row",
@@ -378,6 +288,15 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginTop: 6,
     },
-
-
+    sectionTitle: {
+        color: "#fff",
+        fontSize: 15,
+        fontWeight: "700",
+    },
+    itemContainer: {
+        paddingVertical: 8,
+        width: 168,
+        height: 200,
+        borderRadius: 4,
+    },
 });

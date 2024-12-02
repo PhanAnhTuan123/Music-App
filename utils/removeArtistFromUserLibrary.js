@@ -1,18 +1,15 @@
 import {
+    arrayRemove,
     collection,
     doc,
     getDoc,
     updateDoc,
-    arrayUnion,
 } from "firebase/firestore";
 import { auth, db } from "./firebaseConfig";
 import Toast from "react-native-toast-message";
 
-export default async function addArtistIntoUserLibrary(
+export default async function removeArtistFromUserLibrary(
     artistId,
-    playlistId,
-    name,
-    thumbnail,
     userInfo,
     setUserInfo
 ) {
@@ -24,18 +21,15 @@ export default async function addArtistIntoUserLibrary(
         // Get the current state of the user's document
         const userDoc = await getDoc(userRef);
 
-        // Create a playlist object
-        const artist = { artistId, playlistId, name, thumbnail };
-
-        // Check if the Artist array contains the playlist
-        if (
-            userDoc.exists() &&
-            userDoc.data().Artist?.some((pl) => pl.playlistId === playlistId)
-        ) {
+        // Check if the Artist array contains the artist
+        const artist = userDoc
+            .data()
+            .Artist?.find((pl) => pl.artistId === artistId);
+        if (!userDoc.exists() || !artist) {
             Toast.show({
-                type: "success",
+                type: "error",
                 text1: "Thông báo",
-                text2: "Nghệ sĩ đã có trong thư viện của bạn",
+                text2: "Nghệ sĩ không có trong thư viện của bạn",
                 visibilityTime: 2000,
                 autoHide: true,
                 topOffset: 30,
@@ -44,19 +38,24 @@ export default async function addArtistIntoUserLibrary(
             return;
         }
 
-        // Update the user's document by adding the artist to the Artist array
+        // Update the user's document by removing the Artist from the Playlist array
         await updateDoc(userRef, {
-            Artist: arrayUnion(artist),
+            Artist: arrayRemove(artist),
         });
+
         // Update userInfo
+        const newArtist = userInfo.Artist.filter(
+            (pl) => pl.artistId !== artistId
+        );
         setUserInfo({
             ...userInfo,
-            Artist: [...(userInfo.Artist || []), artist],
+            Artist: newArtist,
         });
+
         Toast.show({
             type: "success",
             text1: "Thông báo",
-            text2: "Thêm nghệ sĩ vào thư viện thành công",
+            text2: "Xóa nghệ sĩ khỏi thư viện thành công",
             visibilityTime: 2000,
             autoHide: true,
             topOffset: 30,
@@ -67,7 +66,7 @@ export default async function addArtistIntoUserLibrary(
         Toast.show({
             type: "error",
             text1: "Thông báo",
-            text2: "Thêm nghệ sĩ vào thư viện thất bại",
+            text2: "Xóa nghệ sĩ khỏi thư viện thất bại",
             visibilityTime: 2000,
             autoHide: true,
             topOffset: 30,
