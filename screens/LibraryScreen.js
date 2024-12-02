@@ -40,7 +40,7 @@ export default function LibraryScreen({ route, navigation }) {
             setSelectedArtists(userInfo?.Artist);
         }, [userInfo, myPlaylist, playlist])
     );
-
+    // Các hàm điều hướng trang
     const addMusic = () => {
         navigation.navigate("ArtistListScreen", {
             selectedArtists: selectedArtists,
@@ -377,5 +377,5 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 14,
     },
-    
+
 });
