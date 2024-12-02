@@ -22,6 +22,7 @@ export default function MainScreen({ navigation }) {
     if (!userInfo) {
         navigation.navigate("Login");
     }
+    
     return (
         <>
             <Tab.Navigator
