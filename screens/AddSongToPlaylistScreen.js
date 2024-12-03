@@ -8,7 +8,7 @@ import {
     TextInput,
     Image,
 } from "react-native";
-import axios from "axios"; // Make sure to import axios
+import axios from "axios"; 
 import { zingmp3Api } from "../apis/constants";
 import { addSongsToMyPlaylist } from "../utils/addSongToMyPlaylist.js";
 
@@ -43,18 +43,16 @@ export default function AddSongToPlaylistScreen({ route, navigation }) {
 
     const handleSongPress = async (selectedSong) => {
         try {
-            // Update the selectedSongs state
+            // Cập nhật trạng thái Bài hát đã chọn
             setSelectedSongs((prevSelectedSongs) => [
                 ...prevSelectedSongs,
                 selectedSong,
             ]);
 
-            // Call the function to add the selected song to the playlist
+            // Gọi hàm để thêm bài hát đã chọn vào danh sách phát
             await addSongsToMyPlaylist(playlistId, [selectedSong]);
 
-            // Optionally, you can show a success message or perform other actions here
         } catch (error) {
-            // Handle the error, show an error message, etc.
             console.error("Failed to add song to playlist:", error);
         }
     };
